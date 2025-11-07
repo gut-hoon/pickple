@@ -16,7 +16,8 @@ public enum MemberErrorCode implements ErrorCode {
 
     ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 사용자입니다"),
     ALREADY_EXISTS_USERNAME(HttpStatus.CONFLICT, "요청한 이메일을 이미 사용 중입니다"),
-    ALREADY_EXISTS_NICKNAME(HttpStatus.CONFLICT, "요청한 닉네임을 이미 사용 중입니다");
+    ALREADY_EXISTS_NICKNAME(HttpStatus.CONFLICT, "요청한 닉네임을 이미 사용 중입니다"),
+    ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 추가 정보 입력이 완료되었습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

@@ -21,6 +21,7 @@ public class Season {
     @Column(nullable = false)
     private LocalDateTime end;
 
+    @Builder
     private Season(String name, LocalDateTime start, LocalDateTime end) {
         this.name = name;
         this.start = start;

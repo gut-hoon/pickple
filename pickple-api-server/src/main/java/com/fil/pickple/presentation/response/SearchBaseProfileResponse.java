@@ -1,6 +1,6 @@
 package com.fil.pickple.presentation.response;
 
-import com.fil.pickple.service.result.SearchBaseProfileResult;
+import com.fil.pickple.application.result.SearchBaseProfileResult;
 
 import java.util.List;
 

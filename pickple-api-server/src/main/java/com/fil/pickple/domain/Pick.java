@@ -24,15 +24,15 @@ public class Pick {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pickple_id")
+    @JoinColumn(name = "pickple_id", nullable = false)
     private Participant pickple;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "picker_id")
+    @JoinColumn(name = "picker_id", nullable = false)
     private Participant picker;
 
     @Column(nullable = false)

@@ -26,15 +26,19 @@ public class Member {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = true)
+    private String fullName;
+
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
-    private String profileImage;
+    @Column(nullable = true)
+    private String avatarImage;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String backgroundImage;
 
+    @Column(nullable = true)
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
@@ -47,14 +51,44 @@ public class Member {
     private Boolean isDeleted;
 
     @Builder
-    private Member(String email, String nickname, String profileImage, String backgroundImage, LocalDate birthDate, ProfileVisibility visibility) {
+    private Member(String email, String nickname, String avatarImage, String backgroundImage, ProfileVisibility visibility) {
         this.email = email;
+        this.fullName = null;
         this.nickname = nickname;
-        this.profileImage = profileImage;
+        this.avatarImage = avatarImage;
         this.backgroundImage = backgroundImage;
-        this.birthDate = birthDate;
+        this.birthDate = null;
         this.visibility = visibility;
         this.registeredAt = LocalDateTime.now();
         this.isDeleted = false;
+    }
+
+    public void register(String fullName, LocalDate birthDate) {
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+    }
+
+    public void editNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void editAvatarImage(String avatarImage) {
+        this.avatarImage = avatarImage;
+    }
+
+    public void editBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+
+    public void editBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void editVisibility(ProfileVisibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }

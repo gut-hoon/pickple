@@ -1,1 +1,3 @@
-// to_do
+import AppBar from './app-bar/index.vue';
+
+export { AppBar };

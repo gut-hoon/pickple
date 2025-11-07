@@ -1,3 +1,7 @@
-import {app} from "@/app";
+import { app } from '@/app';
+import { setRouter } from '@/entities/axiosInstance';
+import { router } from '@/app/providers/router';
 
-app.mount("#app");
+setRouter(router);
+
+app.mount('#app');

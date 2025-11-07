@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,20 +25,24 @@ public class Participant {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_snapshot_id", nullable = true)
+    private TeamSnapshot teamSnapshot;
 
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
-    private String profileImage;
+    @Column(nullable = true)
+    private String avatarImage;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String backgroundImage;
 
     @Column(nullable = false)
@@ -50,14 +55,42 @@ public class Participant {
     private Boolean isLeft;
 
     @Builder
-    private Participant(Team team, Member member, String nickname, String profileImage, String backgroundImage, Boolean isCreator) {
+    private Participant(Team team, Member member, String nickname, String avatarImage, String backgroundImage, Boolean isCreator) {
         this.team = team;
         this.member = member;
+        this.teamSnapshot = null;
         this.isCreator = isCreator;
         this.nickname = nickname;
-        this.profileImage = profileImage;
+        this.avatarImage = avatarImage;
         this.backgroundImage = backgroundImage;
         this.joinedAt = LocalDateTime.now();
         this.isLeft = false;
     }
+
+    public void leave(TeamSnapshot teamSnapshot) {
+        this.teamSnapshot = teamSnapshot;
+        this.isLeft = true;
+    }
+
+    public void reJoin(String nickname, String avatarImage, String backgroundImage) {
+        this.nickname = nickname;
+        this.avatarImage = avatarImage;
+        this.backgroundImage = backgroundImage;
+        this.isLeft = false;
+    }
+
+    public void editNickname(String nickname) {
+        if (nickname != null) {
+            this.nickname = nickname;
+        }
+    }
+
+    public void editAvatarImage(String avatarImage) {
+        this.avatarImage = avatarImage;
+    }
+
+    public void editBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+
 }

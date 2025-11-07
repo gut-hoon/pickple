@@ -20,27 +20,41 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String name;
 
-    @Column(nullable = false)
-    private String profileImage;
+    @Column(nullable = true)
+    private String avatarImage;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String backgroundImage;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String invitationCode;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Builder
-    private Team(String name, String profileImage, String backgroundImage, String invitationCode) {
+    private Team(String name, String avatarImage, String backgroundImage, String invitationCode) {
         this.name = name;
-        this.profileImage = profileImage;
+        this.avatarImage = avatarImage;
         this.backgroundImage = backgroundImage;
         this.invitationCode = invitationCode;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void editTeamName(String teamName) {
+        if (name != null) {
+            this.name = teamName;
+        }
+    }
+
+    public void editAvatarImage(String avatarImage) {
+        this.avatarImage = avatarImage;
+    }
+
+    public void editBackgroundImage(String backgroundImage) {
+        this.backgroundImage = backgroundImage;
     }
 }

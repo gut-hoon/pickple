@@ -4,15 +4,18 @@ import com.fil.pickple.exception.code.CommonErrorCode;
 import com.fil.pickple.exception.code.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @RestControllerAdvice
 @Slf4j
 public class PickpleExceptionHandler {
+
     @ExceptionHandler(PickpleException.class)
     public ResponseEntity<ErrorResponse> handlePickpleException(PickpleException e) {
         log.error("PickpleException 발생: {}", e.getMessage());
@@ -54,6 +57,24 @@ public class PickpleExceptionHandler {
         log.error("RuntimeException 발생: {}", e);
 
         ErrorCode code = CommonErrorCode.INTERNAL_SERVER_ERROR;
+        ErrorResponse response = new ErrorResponse(false, code.getMessage());
+
+        return ResponseEntity.status(code.getHttpStatus()).body(response);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        log.warn("AccessDeniedException: 접근이 거부되었습니다.", e);
+        ErrorCode code = CommonErrorCode.FORBIDDEN;
+        ErrorResponse response = new ErrorResponse(false, code.getMessage());
+
+        return ResponseEntity.status(code.getHttpStatus()).body(response);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxSizeException(MaxUploadSizeExceededException e) {
+        log.warn("MaxUploadSizeExceededException: 파일 최대 크기를 초과하였습니다.", e);
+        ErrorCode code = CommonErrorCode.BAD_REQUEST;
         ErrorResponse response = new ErrorResponse(false, code.getMessage());
 
         return ResponseEntity.status(code.getHttpStatus()).body(response);
